@@ -28,7 +28,7 @@ spec:
           imagePullPolicy: Always
           args:
           - -u
-          - /timeclock
+          - /timeclock/
           ports:
             - name: http
               containerPort: 8080
