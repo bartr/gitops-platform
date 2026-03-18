@@ -90,7 +90,18 @@ az k8s-configuration flux create \
   --namespace "$FLUX_NAMESPACE" \
   --url "$GIT_URL" \
   --branch "$GIT_BRANCH" \
-  --kustomization name=platform path=./clusters/$CLUSTER_NAME/listeners prune=true
+  --kustomization name=listeners path=./platform/$CLUSTER_NAME/listeners prune=true
+
+az k8s-configuration flux create \
+  --resource-group "$RESOURCE_GROUP" \
+  --cluster-name "$CLUSTER_NAME" \
+  --cluster-type connectedClusters \
+  --name apps \
+  --scope cluster \
+  --namespace "$FLUX_NAMESPACE" \
+  --url "$GIT_URL" \
+  --branch "$GIT_BRANCH" \
+  --kustomization name=listeners path=./apps/$CLUSTER_NAME/listeners prune=true
 
 ```
 
