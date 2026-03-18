@@ -7,9 +7,6 @@
 # set env vars
 export RESOURCE_GROUP="miqa-aks-rg"
 export CLUSTER_NAME="miqa"
-export FLUX_NAMESPACE="flux-system"
-export GIT_URL="https://github.com/bartr/gitops-platform"
-export GIT_BRANCH="bartr"
 
 ```
 
@@ -83,9 +80,9 @@ az k8s-configuration flux create \
   --cluster-type connectedClusters \
   --name platform \
   --scope cluster \
-  --namespace "$FLUX_NAMESPACE" \
-  --url "$GIT_URL" \
-  --branch "$GIT_BRANCH" \
+  --namespace flux-system \
+  --url https://github.com/bartr/gitops-platform \
+  --branch bartr \
   --no-wait \
   --kustomization name=heartbeat path=./platform/$CLUSTER_NAME/heartbeat prune=true
 #  --kustomization name=listeners path=./platform/$CLUSTER_NAME/listeners prune=true
@@ -97,9 +94,9 @@ az k8s-configuration flux create \
   --cluster-type connectedClusters \
   --name apps \
   --scope cluster \
-  --namespace "$FLUX_NAMESPACE" \
-  --url "$GIT_URL" \
-  --branch "$GIT_BRANCH" \
+  --namespace flux-system \
+  --url https://github.com/bartr/gitops-apps \
+  --branch bartr \
   --no-wait \
   --kustomization name=timeclock path=./apps/$CLUSTER_NAME/timeclock prune=true
 #  --kustomization name=listeners path=./apps/$CLUSTER_NAME/listeners prune=true
