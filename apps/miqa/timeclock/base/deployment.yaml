@@ -5,8 +5,8 @@ metadata:
   namespace: timeclock
   labels:
     app.kubernetes.io/name: timeclock
-    goa.name: miqa
-    goa.ring: "0"
+    name: miqa
+    ring: "0"
 spec:
   replicas: 1
   strategy:
