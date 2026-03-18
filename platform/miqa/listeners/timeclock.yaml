@@ -6,8 +6,8 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1m0s
-  path: ./apps/miqa/timeclock
+  path: ./clusters/tx-austin/timeclock
   prune: true
   sourceRef:
     kind: GitRepository
-    name: platform
+    name: gitops
