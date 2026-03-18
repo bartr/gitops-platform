@@ -5,7 +5,7 @@ metadata:
   namespace: timeclock
   labels:
     app.kubernetes.io/name: timeclock
-    goa.name: tx-austin
+    goa.name: miqa
     goa.ring: "0"
 spec:
   replicas: 1
@@ -28,7 +28,7 @@ spec:
           imagePullPolicy: Always
           args:
           - -u
-          - timeclock
+          - /timeclock
           ports:
             - name: http
               containerPort: 8080
