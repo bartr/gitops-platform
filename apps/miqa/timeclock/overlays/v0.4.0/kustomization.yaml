@@ -3,8 +3,6 @@ kind: Kustomization
 metadata:
   name: timeclock
   namespace: timeclock
-  labels:
-    version: "0.4.0"
 
 resources:
   - ../../base
