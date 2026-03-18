@@ -6,10 +6,3 @@ metadata:
 
 resources:
   - ../../base
-
-patchesStrategicMerge:
-  - patch.yaml
-
-images:
-- name: ghcr.io/bartr/heartbeat
-  newTag: 0.4.0
