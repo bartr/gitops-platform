@@ -4,7 +4,7 @@ metadata:
   name: heartbeat
   namespace: heartbeat
   labels:
-    goa.version: "0.4.0"
+    version: "0.4.0"
 spec:
   template:
     spec:

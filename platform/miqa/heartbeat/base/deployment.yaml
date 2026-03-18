@@ -5,9 +5,9 @@ metadata:
   namespace: heartbeat
   labels:
     app.kubernetes.io/name: heartbeat
-    goa.cluster: miqa
-    goa.version: "0.1.0"
-    goa.ring: "0"
+    cluster: miqa
+    version: "0.1.0"
+    ring: "0"
 spec:
   replicas: 1
   strategy:
