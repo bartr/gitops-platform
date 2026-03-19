@@ -10,6 +10,7 @@ Spike goals
   - Keep it simple
 - Current plan is for one app team to deploy one app to the cluster
   - It is expected to grow over time
+  - We don't have all of the requirements yet
 
 Demo ARC on wiqa cluster
 - Propose some additional standards
