@@ -1,4 +1,4 @@
-# Azure Kubernetes Service (AKS) GitOps cluster
+# AKS GitOps Spike
 
 ## Agenda
 
