@@ -6,6 +6,7 @@ Spike goals
 - Create a GitOps `starting point`
   - Reuse as much of the WCNP learnings as possible
   - Reuse as much of the Domino's GitOps as possible
+  - Adhere to best practices
 - Assume the Platform Team has limited K8s expertise
   - Keep it simple
 - Current plan is for one app team to deploy one app to the cluster
@@ -27,12 +28,12 @@ Demo ARC on wiqa cluster
 ## Questions
 
 - Is the ARC UI sufficient for the Platform Team with limited K8s experience?
-- Does `az connectedk8s proxy` work with `private AKS`?
-  - If so, can we simplify the architecture and remove bastion / jump boxes?
 
 ## Next Steps
 
 - Deploy private AKS and test ARC proxy
+  - Does `az connectedk8s proxy` work with `private AKS`?
+    - If so, can we simplify the architecture and remove bastion / jump boxes?
 - Deploy cert-manager, let's encrypt, and Envoy for north/south with TLS termination
 - Merge with the TF process
 
