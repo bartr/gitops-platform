@@ -108,10 +108,13 @@ az k8s-configuration flux create \
   --namespace flux-system \
   --url https://github.com/bartr/gitops-platform \
   --branch bartr \
+  #--https-user gitops \
+  #--https-key "$PAT" \
   --kustomization \
     name=cert-manager \
     path=./platform/$CLUSTER_NAME/cert-manager \
     sync-interval=1m \
+    retry-interval=1m \
     timeout=3m \
     prune=true \
     force=true \
@@ -119,6 +122,7 @@ az k8s-configuration flux create \
     name=heartbeat \
     path=./platform/$CLUSTER_NAME/heartbeat \
     sync-interval=1m \
+    retry-interval=1m \
     timeout=3m \
     prune=true \
     force=true \
@@ -138,6 +142,7 @@ az k8s-configuration flux create \
     name=timeclock \
     path=./apps/$CLUSTER_NAME/timeclock \
     sync-interval=1m \
+    retry-interval=1m \
     timeout=3m \
     prune=true \
     force=true \
