@@ -69,7 +69,6 @@ az k8s-configuration flux create \
   --namespace flux-system \
   --url https://github.com/bartr/gitops-platform \
   --branch bartr \
-  --no-wait \
   --kustomization \
     name=heartbeat \
     path=./platform/$CLUSTER_NAME/heartbeat \
@@ -83,7 +82,8 @@ az k8s-configuration flux create \
     sync-interval=1m \
     timeout=3m \
     prune=true \
-    force=true
+    force=true \
+  --no-wait
 
 # create apps GitOps config
 az k8s-configuration flux create \
@@ -95,14 +95,14 @@ az k8s-configuration flux create \
   --namespace flux-system \
   --url https://github.com/bartr/gitops-apps \
   --branch bartr \
-  --no-wait \
   --kustomization \
     name=timeclock \
     path=./apps/$CLUSTER_NAME/timeclock \
     sync-interval=1m \
     timeout=3m \
     prune=true \
-    force=true
+    force=true \
+  --no-wait
 
 ```
 
