@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: cert-manager
+  namespace: cert-manager
+
+resources:
+  - namespace.yaml
+  - crds.yaml
+  - cainjector-serviceaccount.yaml
+  - serviceaccount.yaml
+  - webhook-serviceaccount.yaml
+  - webhook-config.yaml
+  - cainjector-rbac.yaml
+  - rbac.yaml
+  - webhook-rbac.yaml
+  - service.yaml
+  - webhook-service.yaml
+  - cainjector-deployment.yaml
+  - deployment.yaml
+  - webhook-deployment.yaml
+  - webhook-mutating-webhook.yaml
+  - webhook-validating-webhook.yaml
