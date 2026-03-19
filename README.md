@@ -70,15 +70,15 @@ az k8s-configuration flux create \
   --url https://github.com/bartr/gitops-platform \
   --branch bartr \
   --kustomization \
-    name=heartbeat \
-    path=./platform/$CLUSTER_NAME/heartbeat \
+    name=cert-manager \
+    path=./platform/$CLUSTER_NAME/cert-manager \
     sync-interval=1m \
     timeout=3m \
     prune=true \
     force=true \
   --kustomization \
-    name=cert-manager \
-    path=./platform/$CLUSTER_NAME/cert-manager \
+    name=heartbeat \
+    path=./platform/$CLUSTER_NAME/heartbeat \
     sync-interval=1m \
     timeout=3m \
     prune=true \
