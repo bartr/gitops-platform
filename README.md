@@ -70,8 +70,33 @@ az k8s-configuration flux create \
   --url https://github.com/bartr/gitops-platform \
   --branch bartr \
   --no-wait \
-  --kustomization name=heartbeat path=./platform/$CLUSTER_NAME/heartbeat prune=true
-#  --kustomization name=listeners path=./platform/$CLUSTER_NAME/listeners prune=true
+  --kustomization \
+    name=heartbeat \
+    path=./platform/$CLUSTER_NAME/heartbeat \
+    sync-interval 1m \
+    timeout 3m \
+    prune \
+    force \
+  --kustomization \
+    name=cert-manager \
+    path=./platform/$CLUSTER_NAME/cert-manager \
+    sync-interval 1m \
+    timeout 3m \
+    prune \
+    force
+
+
+az k8s-configuration flux kustomization create \
+  --resource-group "$RESOURCE_GROUP" \
+  --cluster-name "$CLUSTER_NAME" \
+  --kustomization-name cert-manager \
+  --path ./platform/$CLUSTER_NAME/cert-manager \
+  --name platform \
+  --cluster-type connectedClusters \
+  --sync-interval 1m \
+  --timeout 3m \
+  --prune \
+  --force
 
 # create apps GitOps config
 az k8s-configuration flux create \
@@ -84,8 +109,13 @@ az k8s-configuration flux create \
   --url https://github.com/bartr/gitops-apps \
   --branch bartr \
   --no-wait \
-  --kustomization name=timeclock path=./apps/$CLUSTER_NAME/timeclock prune=true
-#  --kustomization name=listeners path=./apps/$CLUSTER_NAME/listeners prune=true
+  --kustomization \
+    name=timeclock \
+    path=./apps/$CLUSTER_NAME/timeclock \
+    sync-interval 1m \
+    timeout 3m \
+    prune \
+    force
 
 ```
 
