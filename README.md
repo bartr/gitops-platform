@@ -73,30 +73,17 @@ az k8s-configuration flux create \
   --kustomization \
     name=heartbeat \
     path=./platform/$CLUSTER_NAME/heartbeat \
-    sync-interval 1m \
-    timeout 3m \
-    prune \
-    force \
+    sync-interval=1m \
+    timeout=3m \
+    prune=true \
+    force=true \
   --kustomization \
     name=cert-manager \
     path=./platform/$CLUSTER_NAME/cert-manager \
-    sync-interval 1m \
-    timeout 3m \
-    prune \
-    force
-
-
-az k8s-configuration flux kustomization create \
-  --resource-group "$RESOURCE_GROUP" \
-  --cluster-name "$CLUSTER_NAME" \
-  --kustomization-name cert-manager \
-  --path ./platform/$CLUSTER_NAME/cert-manager \
-  --name platform \
-  --cluster-type connectedClusters \
-  --sync-interval 1m \
-  --timeout 3m \
-  --prune \
-  --force
+    sync-interval=1m \
+    timeout=3m \
+    prune=true \
+    force=true
 
 # create apps GitOps config
 az k8s-configuration flux create \
@@ -112,10 +99,10 @@ az k8s-configuration flux create \
   --kustomization \
     name=timeclock \
     path=./apps/$CLUSTER_NAME/timeclock \
-    sync-interval 1m \
-    timeout 3m \
-    prune \
-    force
+    sync-interval=1m \
+    timeout=3m \
+    prune=true \
+    force=true
 
 ```
 
