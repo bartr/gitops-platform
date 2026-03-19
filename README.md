@@ -3,8 +3,9 @@
 ## Agenda
 
 Spike goals
-- Reuse as much of the WCNP learnings as possible
-- Reuse as much of the Domino's GitOps as possible
+- Create a GitOps `starting point`
+  - Reuse as much of the WCNP learnings as possible
+  - Reuse as much of the Domino's GitOps as possible
 - Assume the Platform Team has limited K8s expertise
   - Keep it simple
 - Current plan is for one app team to deploy one app to the cluster
