@@ -1,5 +1,33 @@
 # Azure Kubernetes Service (AKS) GitOps cluster
 
+## Agenda
+
+- Demo ARC on wiqa cluster
+  - Propose some additional standards
+  - Azure JIT permissions
+  - Entra IDs "just work"
+  - Namespaces
+  - Services
+  - Workloads
+  - GitOps
+    - Configurations (sources)
+    - Kustomizations
+    - Deploy a new version of `heartbeat` and observe
+
+## Questions
+
+- Is the ARC UI sufficient for the Platform Team with limited K8s experience?
+- Does `az connectedk8s proxy` work with `private AKS`?
+  - If so, can we simplify the architecture and remove bastion / jump boxes?
+
+## Next Steps
+
+- Deploy private AKS and test ARC proxy
+- Deploy cert-manager, let's encrypt, and Envoy for north/south with TLS termination
+- Merge with the TF process
+
+## Installation
+
 ## Add Azure extensions and providers
 
 ```bash
