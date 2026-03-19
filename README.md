@@ -2,17 +2,25 @@
 
 ## Agenda
 
-- Demo ARC on wiqa cluster
-  - Propose some additional standards
-  - Azure JIT permissions
-  - Entra IDs "just work"
-  - Namespaces
-  - Services
-  - Workloads
-  - GitOps
-    - Configurations (sources)
-    - Kustomizations
-    - Deploy a new version of `heartbeat` and observe
+Spike goals
+- Reuse as much of the WCNP learnings as possible
+- Reuse as much of the Domino's GitOps as possible
+- Assume the Platform Team has limited K8s expertise
+  - Keep it simple
+- Current plan is for one app team to deploy one app to the cluster
+  - It is expected to grow over time
+
+Demo ARC on wiqa cluster
+- Propose some additional standards
+- Azure JIT permissions
+- Entra IDs "just work"
+- Namespaces
+- Services
+- Workloads
+- GitOps
+  - Configurations (sources)
+  - Kustomizations
+  - Deploy a new version of `heartbeat` and observe
 
 ## Questions
 
