@@ -28,13 +28,21 @@ Demo ARC on wiqa cluster
 ## Questions
 
 - Is the ARC UI sufficient for the Platform Team with limited K8s experience?
+  - The consonsus is that it's a good place to start and will likely be sufficient.
 
 ## Next Steps
 
+- Create and assign ARC access groups
+  - Since ARC UI is read-only, these roles don't have to use JIT
 - Deploy private AKS and test ARC proxy
   - Does `az connectedk8s proxy` work with `private AKS`?
     - If so, can we simplify the architecture and remove bastion / jump boxes?
+    - If so, we should follow up with the AKS baseline team as this is a major simplification
 - Deploy cert-manager, let's encrypt, and Envoy for north/south with TLS termination
+- Standardize the tags for the different components
+  - Use yaml metadata:labels for tags as they appear prominently in ARC UI
+- Add private ACR support
+- Add Azure Key Vault support
 - Merge with the TF process
 
 ## Installation
