@@ -164,7 +164,7 @@ Use only one scope for a given assignment pattern:
 
 ```bash
 
-# Assign ARC Roles by scope (choose 1)
+# Assign ARC scope (choose 1)
 export ARC_SCOPE="/subscriptions/$(az account show --query id -o tsv | tr -d '\r')"
 export ARC_SCOPE=$(az group show --name "$RESOURCE_GROUP" --query id -o tsv | tr -d '\r')
 export ARC_SCOPE=$(az connectedk8s show \
@@ -172,6 +172,9 @@ export ARC_SCOPE=$(az connectedk8s show \
   --name "$CLUSTER_NAME" \
   --query id -o tsv | tr -d '\r')
 
+# Assign ARC Roles by scope
+
+### Read-only roles ###
 az role assignment create \
   --assignee-object-id "$AAD_GROUP_ID" \
   --assignee-principal-type Group \
@@ -184,6 +187,7 @@ az role assignment create \
   --role "Azure Arc Kubernetes Viewer" \
   --scope "$ARC_SCOPE"
 
+### Admin Role ###
 az role assignment create \
   --assignee-object-id "$AAD_GROUP_ID" \
   --assignee-principal-type Group \
