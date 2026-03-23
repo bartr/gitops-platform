@@ -1,14 +1,18 @@
 # AKS GitOps Spike
 
-## Agenda
+## Spike 2 goals
 
-Spike goals
+- Create and assign ARC access groups
+  - Complete
+- Deploy cert-manager, let's encrypt, and Envoy for north/south with TLS termination
+- Standardize the tags for the different components
+  - Use yaml metadata:labels for tags as they appear prominently in ARC UI
+
+## Spike 1 goals
 - Create a GitOps `starting point`
   - Reuse as much of the WCNP learnings as possible
   - Reuse as much of the Domino's GitOps as possible
   - Adhere to best practices
-- Assume the Platform Team has limited K8s expertise
-  - Keep it simple
 - Current plan is for one app team to deploy one app to the cluster
   - It is expected to grow over time
   - We don't have all of the requirements yet
@@ -27,20 +31,14 @@ Demo ARC on wiqa cluster
 
 ## Questions
 
-- Is the ARC UI sufficient for the Platform Team with limited K8s experience?
+- Is the ARC UI sufficient for the Platform Team?
   - The consonsus is that it's a good place to start and will likely be sufficient.
 
 ## Next Steps
 
-- Create and assign ARC access groups
-  - Since ARC UI is read-only, these roles don't have to use JIT
-- Deploy private AKS and test ARC proxy
-  - Does `az connectedk8s proxy` work with `private AKS`?
-    - If so, can we simplify the architecture and remove bastion / jump boxes?
-    - If so, we should follow up with the AKS baseline team as this is a major simplification
-- Deploy cert-manager, let's encrypt, and Envoy for north/south with TLS termination
-- Standardize the tags for the different components
-  - Use yaml metadata:labels for tags as they appear prominently in ARC UI
+- Add private cluster support
+  - Customer zero uses VPN from SAW devices
+  - This is a change from the AKS baseline which uses bastion hosts
 - Add private ACR support
 - Add Azure Key Vault support
 - Merge with the TF process
@@ -158,23 +156,77 @@ az k8s-configuration flux create \
 
 ```
 
+Use only one scope for a given assignment pattern:
+
+- `CLUSTER_SCOPE` limits access to one ARC cluster
+- `RG_SCOPE` applies access to all ARC clusters in the resource group
+- `SUB_SCOPE` applies access to all ARC clusters in the subscription
+
 ```bash
-# not needed when using AAD
-# create a service account and secret
-kubectl create serviceaccount arc-user -n default
-kubectl create clusterrolebinding arc-user-binding --clusterrole cluster-admin --serviceaccount default:arc-user
 
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: Secret
-metadata:
-  name: arc-user-secret
-  annotations:
-    kubernetes.io/service-account.name: arc-user
-type: kubernetes.io/service-account-token
-EOF
+# Assign ARC Roles by scope
+export SUB_SCOPE="/subscriptions/$(az account show --query id -o tsv | tr -d '\r')"
+export RG_SCOPE=$(az group show --name "$RESOURCE_GROUP" --query id -o tsv | tr -d '\r')
+export CLUSTER_SCOPE=$(az connectedk8s show \
+  --resource-group "$RESOURCE_GROUP" \
+  --name "$CLUSTER_NAME" \
+  --query id -o tsv | tr -d '\r')
 
-# get the ARC secret
-kubectl get secret arc-user-secret -o jsonpath='{$.data.token}' | base64 -d | sed 's/$/\n/g'
+# Cluster scope: applies only to the named ARC cluster
+az role assignment create \
+  --assignee-object-id "$AAD_GROUP_ID" \
+  --assignee-principal-type Group \
+  --role Reader \
+  --scope "$CLUSTER_SCOPE"
+
+az role assignment create \
+  --assignee-object-id "$AAD_GROUP_ID" \
+  --assignee-principal-type Group \
+  --role "Azure Arc Kubernetes Viewer" \
+  --scope "$CLUSTER_SCOPE"
+
+az role assignment create \
+  --assignee-object-id "$AAD_GROUP_ID" \
+  --assignee-principal-type Group \
+  --role "Azure Arc Kubernetes Cluster Admin" \
+  --scope "$CLUSTER_SCOPE"
+
+# Resource group scope: applies to all current and future ARC clusters in the resource group
+az role assignment create \
+  --assignee-object-id "$AAD_GROUP_ID" \
+  --assignee-principal-type Group \
+  --role Reader \
+  --scope "$RG_SCOPE"
+
+az role assignment create \
+  --assignee-object-id "$AAD_GROUP_ID" \
+  --assignee-principal-type Group \
+  --role "Azure Arc Kubernetes Viewer" \
+  --scope "$RG_SCOPE"
+
+az role assignment create \
+  --assignee-object-id "$AAD_GROUP_ID" \
+  --assignee-principal-type Group \
+  --role "Azure Arc Kubernetes Cluster Admin" \
+  --scope "$RG_SCOPE"
+
+# Subscription scope: applies to all current and future ARC clusters in the subscription
+az role assignment create \
+  --assignee-object-id "$AAD_GROUP_ID" \
+  --assignee-principal-type Group \
+  --role Reader \
+  --scope "$SUB_SCOPE"
+
+az role assignment create \
+  --assignee-object-id "$AAD_GROUP_ID" \
+  --assignee-principal-type Group \
+  --role "Azure Arc Kubernetes Viewer" \
+  --scope "$SUB_SCOPE"
+
+az role assignment create \
+  --assignee-object-id "$AAD_GROUP_ID" \
+  --assignee-principal-type Group \
+  --role "Azure Arc Kubernetes Cluster Admin" \
+  --scope "$SUB_SCOPE"
 
 ```
