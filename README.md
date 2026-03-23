@@ -160,73 +160,34 @@ Use only one scope for a given assignment pattern:
 
 - `CLUSTER_SCOPE` limits access to one ARC cluster
 - `RG_SCOPE` applies access to all ARC clusters in the resource group
-- `SUB_SCOPE` applies access to all ARC clusters in the subscription
+- `ARC_SCOPE` applies access to all ARC clusters in the subscription
 
 ```bash
 
-# Assign ARC Roles by scope
-export SUB_SCOPE="/subscriptions/$(az account show --query id -o tsv | tr -d '\r')"
-export RG_SCOPE=$(az group show --name "$RESOURCE_GROUP" --query id -o tsv | tr -d '\r')
-export CLUSTER_SCOPE=$(az connectedk8s show \
+# Assign ARC Roles by scope (choose 1)
+export ARC_SCOPE="/subscriptions/$(az account show --query id -o tsv | tr -d '\r')"
+export ARC_SCOPE=$(az group show --name "$RESOURCE_GROUP" --query id -o tsv | tr -d '\r')
+export ARC_SCOPE=$(az connectedk8s show \
   --resource-group "$RESOURCE_GROUP" \
   --name "$CLUSTER_NAME" \
   --query id -o tsv | tr -d '\r')
 
-# Cluster scope: applies only to the named ARC cluster
 az role assignment create \
   --assignee-object-id "$AAD_GROUP_ID" \
   --assignee-principal-type Group \
   --role Reader \
-  --scope "$CLUSTER_SCOPE"
+  --scope "$ARC_SCOPE"
 
 az role assignment create \
   --assignee-object-id "$AAD_GROUP_ID" \
   --assignee-principal-type Group \
   --role "Azure Arc Kubernetes Viewer" \
-  --scope "$CLUSTER_SCOPE"
+  --scope "$ARC_SCOPE"
 
 az role assignment create \
   --assignee-object-id "$AAD_GROUP_ID" \
   --assignee-principal-type Group \
   --role "Azure Arc Kubernetes Cluster Admin" \
-  --scope "$CLUSTER_SCOPE"
-
-# Resource group scope: applies to all current and future ARC clusters in the resource group
-az role assignment create \
-  --assignee-object-id "$AAD_GROUP_ID" \
-  --assignee-principal-type Group \
-  --role Reader \
-  --scope "$RG_SCOPE"
-
-az role assignment create \
-  --assignee-object-id "$AAD_GROUP_ID" \
-  --assignee-principal-type Group \
-  --role "Azure Arc Kubernetes Viewer" \
-  --scope "$RG_SCOPE"
-
-az role assignment create \
-  --assignee-object-id "$AAD_GROUP_ID" \
-  --assignee-principal-type Group \
-  --role "Azure Arc Kubernetes Cluster Admin" \
-  --scope "$RG_SCOPE"
-
-# Subscription scope: applies to all current and future ARC clusters in the subscription
-az role assignment create \
-  --assignee-object-id "$AAD_GROUP_ID" \
-  --assignee-principal-type Group \
-  --role Reader \
-  --scope "$SUB_SCOPE"
-
-az role assignment create \
-  --assignee-object-id "$AAD_GROUP_ID" \
-  --assignee-principal-type Group \
-  --role "Azure Arc Kubernetes Viewer" \
-  --scope "$SUB_SCOPE"
-
-az role assignment create \
-  --assignee-object-id "$AAD_GROUP_ID" \
-  --assignee-principal-type Group \
-  --role "Azure Arc Kubernetes Cluster Admin" \
-  --scope "$SUB_SCOPE"
+  --scope "$ARC_SCOPE"
 
 ```
